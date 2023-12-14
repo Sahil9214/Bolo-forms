@@ -1,117 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
+import axios from "axios";
+
+import FormCategorize from "./FormCategorize";
 const Form = () => {
+  const [questions, setQuestionAnswer] = useState([]);
+  const [newQuestion, setNewQuestionAnswer] = useState({ type: "", data: {} });
+
+  const addQuestion = () => {
+    axios
+      .post(
+        "https://uptight-pear-stockings.cyclic.app/questions/add",
+        newQuestion
+      )
+      .then((response) => {
+        setQuestionAnswer([...questions, response.data]);
+        setNewQuestionAnswer({ type: "", data: {} });
+      })
+      .catch((error) => console.error("Error adding question:", error));
+  };
   return (
     <div>
       <h1
         style={{
-          fontSize: "39px",
           color: "#7E22CE",
+          fontSize: "40px",
+          fontWeight: "700",
+          lineHeight: "150%",
         }}
       >
-        New Form
+        BOLO FORM
       </h1>
-      <input
-        style={{
-          padding: "20px 150px",
-          borderRadius: "30px",
-          fontSize: "23px",
-        }}
-        placeholder="Enter Your Name"
-      />
-      <br />
-      <br />
-      <div
-        style={{
-          height: "3px",
-          width: "80%",
-          margin: "auto",
-          backgroundColor: "grey",
-        }}
-      ></div>
-      <br />
-      <br />
-      <div
-        style={{
-          width: "80%",
-          margin: "auto",
-          border: "1px solid grey",
-          borderBottom: "2px solid #7E22CE ",
-          padding: "10px ",
-        }}
-      >
-        <h1>Cloze</h1>
-        <br />
-        <br />
-        <div style={{ padding: "0px 12px" }}>
-          <h2>Sentence</h2>
-          <br />
-          <input
-            placeholder="Enter description for the questions"
-            type="text"
-            style={{
-              padding: "20px 10px",
-              borderRadius: "30px",
-              fontSize: "23px",
-              justifyContent: "left",
-            }}
-          />
-        </div>
+      <div>
+        <h3>Select Question Type:</h3>
+        <select
+          style={{
+            padding: "15px 120px",
+            fontSize: "22px",
+            borderRadius: "20px",
+          }}
+          onChange={(e) =>
+            setNewQuestionAnswer({ ...newQuestion, type: e.target.value })
+          }
+          value={newQuestion.type}
+        >
+          <option value="">Select</option>
+          <option value="categorize">Categorize</option>
+        </select>
       </div>
       <br />
-      <div
-        style={{
-          width: "80%",
-          margin: "auto",
-          border: "1px solid grey",
-          borderBottom: "2px solid #7E22CE ",
-        }}
-      >
-        <h1>Comprehession</h1>
-        <br />
-        <br />
-        <div style={{ padding: "0px 12px" }}>
-          <h4>Question 1</h4>
-          <br />
-          <textarea
-            placeholder="Enter description for the questions"
-            type="text"
-            style={{
-              padding: "20px 10px",
-              borderRadius: "30px",
-              fontSize: "23px",
-              justifyContent: "left",
-            }}
-          ></textarea>
-        </div>
-      </div>
       <br />
-      <div
+      <br />
+      <br />
+      {newQuestion.type === "categorize" && (
+        <FormCategorize
+          onChange={(data) => setNewQuestionAnswer({ ...newQuestion, data })}
+        />
+      )}
+<br/>
+<br/>
+      <button
         style={{
-          width: "80%",
-          margin: "auto",
-          border: "1px solid grey",
-          borderBottom: "2px solid #7E22CE ",
+          color: "#7E22CE",
+          fontSize: "20px",
+          fontWeight: "700",
+          lineHeight: "150%",
+          padding: "10px 12px",
+          backgroundColor: "#fff",
+          borderRadius: "20px",
+          borderColor: "3px solid grey",
         }}
+        onClick={addQuestion}
       >
-        <h4>Categorize</h4>
-        <br />
-        <br />
-        <div style={{ padding: "0px 12px" }}>
-          <h4>Question 1</h4>
-          <br />
-          <input
-            placeholder="Enter description for the questions"
-            type="text"
-            style={{
-              padding: "20px 10px",
-              borderRadius: "30px",
-              fontSize: "23px",
-              justifyContent: "left",
-            }}
-          />
-        </div>
-      </div>
+        Add Question
+      </button>
     </div>
   );
 };

@@ -24,6 +24,7 @@ const Home = () => {
             </h1>
           </Box>
           <Box>
+            <h2>👇👇👇</h2>
             <Link to='/form'>
             <Button
               fontSize="25px"
@@ -31,12 +32,21 @@ const Home = () => {
               color={"#fff"}
               backgroundColor={"black"}
               marginTop={"20px"}
+              cursor={'pointer'}
             >
               Create New From
             </Button></Link>
           </Box>
         </div>
       </div>
+      <h1   
+      style={{
+        fontSize:"39px",
+        fontFamily:"italic",
+        color: "#7E22CE",
+      }}
+      
+      >Welcome to Bolo Form</h1>
     </div>
   );
 };
