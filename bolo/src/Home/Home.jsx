@@ -1,7 +1,25 @@
-import React from "react";
-import {Box,Button} from '@chakra-ui/react'
+import React, { useEffect, useState } from "react";
+import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Home = () => {
+  const [data, setData] = useState({});
+  const getData = async () => {
+    try {
+      let res = await axios.get(
+        `https://dark-trousers-toad.cyclic.app/questions/getData`
+      );
+
+      setData(res.data);
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       <div style={{ width: "80%", margin: "auto" }}>
@@ -25,28 +43,32 @@ const Home = () => {
           </Box>
           <Box>
             <h2>👇👇👇</h2>
-            <Link to='/form'>
-            <Button
-              fontSize="25px"
-              padding={"12px 20px"}
-              color={"#fff"}
-              backgroundColor={"black"}
-              marginTop={"20px"}
-              cursor={'pointer'}
-            >
-              Create New From
-            </Button></Link>
+            <Link to="/form">
+              <Button
+                fontSize="25px"
+                padding={"12px 20px"}
+                color={"#fff"}
+                backgroundColor={"black"}
+                marginTop={"20px"}
+                cursor={"pointer"}
+              >
+                Create New From
+              </Button>
+            </Link>
           </Box>
         </div>
       </div>
-      <h1   
-      style={{
-        fontSize:"39px",
-        fontFamily:"italic",
-        color: "#7E22CE",
-      }}
-      
-      >Welcome to Bolo Form</h1>
+      <h1
+        style={{
+          fontSize: "39px",
+          fontFamily: "italic",
+          color: "#7E22CE",
+        }}
+      >
+        Welcome to Bolo Form
+      </h1>
+      <br />
+      <br />
     </div>
   );
 };
